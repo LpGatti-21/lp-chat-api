@@ -13,13 +13,15 @@ export default async function handler(req, res) {
       input: `You are a portfolio assistant. Answer only about the site.\nUser: ${message}`,
     });
 
-    const reply = response.output[0].content[0].text;
-
     res.status(200).json({
-      reply: reply,
+      ok: true,
+      response: response
     });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ reply: "Error" });
+    console.error("OPENAI ERROR:", err);
+    res.status(500).json({
+      ok: false,
+      error: String(err?.message || err)
+    });
   }
 }
